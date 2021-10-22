@@ -6,4 +6,5 @@ y = np.sin(x)
 plt.plot(x, y)
 plt.savefig("mygraph.png") # сохранть график
 
+
 plt.show()
