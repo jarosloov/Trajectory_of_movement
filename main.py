@@ -1,10 +1,73 @@
-import numpy as np
-import matplotlib.pyplot as plt
-
-x = np.arange(0, 2 * np.pi, 0.1)
-y = np.sin(x)
-plt.plot(x, y)
-plt.savefig("mygraph.png") # сохранть график
+import os, time
+import pyscreenshot as ImageGrab
+from Xlib import display
 
 
-plt.show()
+def move_left():
+    os.system("xte 'key Left'")
+
+
+def move_right():
+    os.system("xte 'key Right'")
+
+
+def exist_branch(x, y):
+    box = (x, y - 6 * 100, x + 1, y)
+    im = ImageGrab.grab(box)
+    rgb_im = im.convert('RGB')
+
+    x, y = im.size
+
+    result = []
+    for i in range(0, 6):
+        r, g, b = rgb_im.getpixel((0, y - 1 - i * 100))
+        summa = r + g + b
+        if summa < 700:
+            result.append(True)
+        else:
+            result.append(False)
+
+    return result
+
+
+def get_mouse():
+    while True:
+        data = display.Display().screen().root.query_pointer()._data
+        x = data["root_x"]
+        y = data["root_y"]
+        print('%s,%s - %s' % (str(x), str(y), exist_branch(x, y)))
+
+
+def main():
+    start_x = 1543
+    start_y = 641
+
+    while True:
+        branches = exist_branch(start_x, start_y)
+
+        cons_str = ""
+        for elem in branches:
+            if elem:
+                cons_str += 'Left  '
+            else:
+                cons_str += 'Right '
+        print(cons_str)
+
+        for elem in branches:
+            if elem:
+                move_left()
+                time.sleep(0.03)
+                move_left()
+
+            else:
+                move_right()
+                time.sleep(0.03)
+                move_right()
+        time.sleep(0.2)
+
+
+try:
+    # get_mouse()
+    main()
+except:
+    print('Exit..')
