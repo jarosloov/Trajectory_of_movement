@@ -12,21 +12,26 @@ def move_right():
 
 
 def exist_branch(x, y):
-    box = (x, y - 6 * 100, x + 1, y)
+    box = (x, y - 6 * 100, x + 10, y)  # разрешение экрна
+    # было x + 1 заменил на x + 10
     im = ImageGrab.grab(box)
-    rgb_im = im.convert('RGB')
 
+    rgb_im = im.convert('RGB')
+    rgb_im.save("scrin1.png")
     x, y = im.size
 
     result = []
     for i in range(0, 6):
-        r, g, b = rgb_im.getpixel((0, y - 1 - i * 100))
+        r, g, b = rgb_im.getpixel((0, y - 1 - i * 100)) # разбивает икрингот на 6 частей и возращает пиксель в точке
+        print("---------")
+        print(r)
+        print(g)
+        print(b)
         summa = r + g + b
         if summa < 700:
             result.append(True)
         else:
             result.append(False)
-
     return result
 
 
@@ -67,6 +72,7 @@ def main():
 
 
 try:
+
     # get_mouse()
     main()
 except:
