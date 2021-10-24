@@ -22,7 +22,7 @@ def exist_branch(x, y):
 
     result = []
     for i in range(0, 6):
-        r, g, b = rgb_im.getpixel((0, y - 1 - i * 100)) # разбивает икрингот на 6 частей и возращает пиксель в точке
+        r, g, b = rgb_im.getpixel((0, y - 1 - i * 100)) # разбивает скриншот на 6 частей и возращает пиксель в точке по RGB
         print("---------")
         print(r)
         print(g)
